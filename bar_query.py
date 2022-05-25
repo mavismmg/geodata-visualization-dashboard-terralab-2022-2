@@ -5,7 +5,6 @@ from db import Connection
 class Bar:
     def __init__(self, db_connect=Connection()):
         self.db_connect = db_connect
-        self.data = []
 
     def access_db(self):        
         postgres_data = self.db_connect.connection()
@@ -21,34 +20,37 @@ class Bar:
             group by "state",
             "geoapi_id"''', postgres_data)
 
-        self.data = cur.fetchall()
+        data = cur.fetchall()
 
-        return self.data
+        return data
 
 
-    def api_serviceCount_per_state(self):
-        df = pd.DataFrame(self.data, columns=['state', 'geoapi_id', 'count'])
+    @staticmethod
+    def api_serviceCount_per_state():
+        data = Bar().access_db()
+
+        df = pd.DataFrame(data, columns=['state', 'geoapi_id', 'count'])
 
         df = df.apply(lambda x: x.astype(str).str.lower())
 
-        replace_dict = {
-            'state of ': '',
-            'federal district': 'distrito federal',
-            'í': 'i',
-            'á': 'a',
-            'ã': 'a',
-            'ô': 'o'
-        }
+        # replace_dict = {
+        #     'state of ': '',
+        #     'federal district': 'distrito federal',
+        #     'í': 'i',
+        #     'á': 'a',
+        #     'ã': 'a',
+        #     'ô': 'o'
+        # }
 
-        for state in df:
-            df[state] = df[state].str.replace(replace_dict)
+        # for state in df:
+        #     df[state] = df[state].str.replace(state, replace_dict)
 
-        # temp_df['state'] = temp_df['state'].str.replace('state of ', '')
-        # temp_df['state'] = temp_df['state'].str.replace('federal district', 'distrito federal')
-        # temp_df['state'] = temp_df['state'].str.replace('í', 'i')
-        # temp_df['state'] = temp_df['state'].str.replace('á', 'a')
-        # temp_df['state'] = temp_df['state'].str.replace('ã', 'a')
-        # temp_df['state'] = temp_df['state'].str.replace('ô', 'o')
+        df['state'] = df['state'].str.replace('state of ', '')
+        df['state'] = df['state'].str.replace('federal district', 'distrito federal')
+        df['state'] = df['state'].str.replace('í', 'i')
+        df['state'] = df['state'].str.replace('á', 'a')
+        df['state'] = df['state'].str.replace('ã', 'a')
+        df['state'] = df['state'].str.replace('ô', 'o')
 
         pd.set_option('display.max_rows', None)
 
