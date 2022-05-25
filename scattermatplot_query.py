@@ -2,24 +2,34 @@ import pandas as pd
 
 from db import Connection
 
-db_connect = Connection()
+class Scatter:
+    def __init__(self, db_connect=Connection()):
+        self.db_connect = db_connect
 
-conn = db_connect.connection()
+    def access_db(self):
+        postgres_data = self.db_connect.connection()
 
-cur = conn.cursor()
+        cur = postgres_data.cursor()
+        cur.execute(
+            '''select
+            "latitude",
+            "longitude",
+            "geoapi_id"
+            from "Response"
+            limit 5000
+            ''', postgres_data)
 
-cur.execute(
-    '''select
-    "latitude",
-    "longitude",
-    "geoapi_id"
-    from "Response"
-    limit 5000
-    ''')
+        data = cur.fetchall()
 
-data = cur.fetchall()
+        return data
 
-api_service_per_state_df = pd.DataFrame(data, columns=['latitude', 'longitude', 'geoapi'])
+    @staticmethod
+    def api_service_per_state():
+        data = Scatter().access_db()
 
-# api_service_per_state_df = api_service_per_state_df.apply(
-#     lambda x: x.astype(str).str.lower())
+        api_service_per_state_df = pd.DataFrame(data, columns=['latitude', 'longitude', 'geoapi'])
+        api_service_per_state_df['geoapi'] = api_service_per_state_df['geoapi'].apply(
+            lambda x: x.astype(str).str.lower()
+        )
+
+        return api_service_per_state_df
