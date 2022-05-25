@@ -1,3 +1,6 @@
+from decimal import Clamped
+from os import access
+from click import Choice
 import pandas as pd
 
 from db import Connection
@@ -21,8 +24,11 @@ class Chropleth:
 
         return data
 
-    
-    def geoapi(data):
+
+    @staticmethod
+    def geoapi():
+        data = Chropleth().access_db()
+
         df = pd.DataFrame(data, columns=['state', 'count'])
 
         df = df.apply(lambda x: x.astype(str).str.lower())
