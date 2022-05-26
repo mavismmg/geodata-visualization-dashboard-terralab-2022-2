@@ -1,9 +1,6 @@
-from decimal import Clamped
-from os import access
-from click import Choice
 import pandas as pd
 
-from database_connection.db import Connection
+from db import Connection
 
 class Chropleth:
     def __init__(self, db_connect=Connection()):
@@ -22,16 +19,30 @@ class Chropleth:
 
         data = cur.fetchall()
 
-        return data
+        cur.execute(
+            '''select
+            "maxRequestPerDay"
+            from "Geoapi"
+            ''', postgres_data)
+
+        data_2 = cur.fetchall()
+
+        return data, data_2
 
 
     @staticmethod
     def geoapi():
-        data = Chropleth().access_db()
+        data, data_2 = Chropleth().access_db()
 
         df = pd.DataFrame(data, columns=['state', 'count'])
+        # temp_df = pd.DataFrame(data_2, columns=['maxRequestPerDay'])
 
-        df = df.apply(lambda x: x.astype(str).str.lower())
+        # df['count'] = temp_df['maxRequestPerDay']
+
+        # for feature in df:
+        #     df.dropna(subset=[feature], inplace=True)
+
+        df = df.apply(lambda x: x.astype(str).str.lower()) 
 
         df['state'] = df['state'].str.replace('state of ', '')
         df['state'] = df['state'].str.replace('federal district', 'distrito federal')
@@ -87,5 +98,7 @@ class Chropleth:
         df = df.apply(lambda x: x.astype(str).str.upper())
 
         geoapi_df = pd.DataFrame(df, columns=['state', 'count'])
+
+        geoapi_df.columns = ['Estado', 'Buscas concluídas']
 
         return geoapi_df

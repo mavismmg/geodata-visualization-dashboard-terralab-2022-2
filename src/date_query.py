@@ -1,6 +1,6 @@
 import pandas as pd
 
-from database_connection.db import Connection
+from db import Connection
 
 class Date:
     def __init__(self, db_connect=Connection()):
@@ -29,7 +29,7 @@ class Date:
 
         df = pd.DataFrame(data, columns=['date', 'request_id', 'geoapi_id'])
 
-        df = pd.to_datetime(df['date']).dt.date
+        #df = pd.to_datetime(df['date']).dt.date
 
         #df['date'] = pd.to_numeric(df['date'])
 
