@@ -30,22 +30,7 @@ class Bar:
         data = Bar().access_db()
 
         df = pd.DataFrame(data, columns=['state', 'geoapi_id', 'count'])
-
-        df = df.apply(lambda x: x.astype(str).str.lower())
-
-        # replace_dict = {
-        #     'state of ': '',
-        #     'federal district': 'distrito federal',
-        #     'í': 'i',
-        #     'á': 'a',
-        #     'ã': 'a',
-        #     'ô': 'o'
-        # }
-
-        # for state in df:
-        #     df[state] = df[state].str.replace(state, replace_dict)
-
-        
+        df = df.apply(lambda x: x.astype(str).str.lower())        
 
         df['state'] = df['state'].str.replace('state of ', '')
         df['state'] = df['state'].str.replace('federal district', 'distrito federal')
@@ -90,7 +75,6 @@ class Bar:
         pd.set_option('display.max_rows', None)
 
         df = df.drop(labels=[8, 58, 98, 133, 134, 139])
-
         df['state'] = df['state'].apply(
             lambda x: x.upper()
         )

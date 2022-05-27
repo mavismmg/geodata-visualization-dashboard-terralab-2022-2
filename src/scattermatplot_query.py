@@ -28,8 +28,5 @@ class Scatter:
         data = Scatter().access_db()
 
         api_service_per_state_df = pd.DataFrame(data, columns=['latitude', 'longitude', 'geoapi'])
-        # api_service_per_state_df['geoapi'] = api_service_per_state_df['geoapi'].apply(
-        #     lambda x: x.astype(str).str.lower()
-        # )
 
         return api_service_per_state_df

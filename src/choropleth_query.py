@@ -82,38 +82,4 @@ class Chropleth:
         geoapi_df = pd.DataFrame(df, columns=['state', 'count'])
         geoapi_df.columns = ['sigla', 'Buscas concluídas']
 
-        # state_fullname_map = {
-        #     'Acre',
-        #     'Alagoas',
-        #     'Amapa',
-        #     'Amazonas',
-        #     'Amazonas',
-        #     'Bahia',
-        #     'Aeara',
-        #     'Distrito federal',
-        #     'Espirito Santo',
-        #     'Goias',
-        #     'Maranhao', 
-        #     'Mato Grosso',
-        #     'Mato Grosso do Sul',
-        #     'Minas Gerais',
-        #     'Para',
-        #     'Paraiba',
-        #     'Parana',
-        #     'Pernambuco',
-        #     'Piaui',
-        #     'Rio de Janeiro',
-        #     'Rio Grande do Norte', 
-        #     'Rio Grande do Sul', 
-        #     'Rondonia',
-        #     'Roraima',
-        #     'Santa Catarina',
-        #     'Sao Paulo',
-        #     'Sergipe',
-        #     'Tocantins',
-        # }
-
-        #state_name_df = pd.DataFrame.from_dict(state_fullname_map, columns=['Estado'])
-        #geoapi_df['Estado'] = state_name_df['Estado']
-
         return geoapi_df
