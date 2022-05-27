@@ -12,11 +12,11 @@ License: MIT<br/>
 Proposta mapa coroplético por estado com a informação total de buscas concluídas para cada estado:<br/><br/>
 ![Messages](https://imgur.com/lg26Sc7.png "Banco de dados - Mensagens") <br/>
 
-Proposta mapa de pontos, o qual indica quais respostas estão fora dos limites da cidade que o endereço de busca solicitou:<br/>
-![Messages](https://imgur.com/nGQvO5l.png "Banco de dados - Mensagens") <br/><br/>
+Proposta mapa de pontos, o qual indica quais respostas estão fora dos limites da cidade que o endereço de busca solicitou:<br/><br/>
+![Messages](https://imgur.com/nGQvO5l.png "Banco de dados - Mensagens") <br/>
 
-Proposta gráfico de barras empilhadas com a informação do total de geolocalizações concluídas por api:<br/>
-![Messages](https://imgur.com/qNYPd7A.png "Banco de dados - Mensagens") <br/><br/>
+Proposta gráfico de barras empilhadas com a informação do total de geolocalizações concluídas por api:<br/><br/>
+![Messages](https://imgur.com/qNYPd7A.png "Banco de dados - Mensagens") <br/>
 
 A aplicação roda na porta local 8050:<br/>
 ```ruby
