@@ -11,7 +11,6 @@ import json
 from choropleth_query import Chropleth
 from scattermatplot_query import Scatter
 from bar_query import Bar
-from date_query import Date
 
 class ApplicationDashboard:
     external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -23,9 +22,9 @@ class ApplicationDashboard:
         self.scatter_df = scatter_df
         self.bar_df = bar_df
 
-        # self.mag_fig = None
-        # self.scatter_fig = None
-        # self.bar_fig = None
+        self.mag_fig = None
+        self.scatter_fig = None
+        self.bar_fig = None
 
         self.app.layout = html.Div(
             [
@@ -75,7 +74,7 @@ class ApplicationDashboard:
                 )
 
             bar_fig = px.bar(self.bar_df, x="Estado", y="Geocodificações concluídas", color='Geoapi_id',
-                            text="Geocodificações concluídas")
+                            text="Geocodificações concluídas", hover_name="Geoapi_id")
 
             return map_fig, scatter_fig, bar_fig
 
