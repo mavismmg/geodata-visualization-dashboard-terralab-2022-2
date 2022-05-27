@@ -47,11 +47,15 @@ class ApplicationDashboard:
     
     def callbacks(self, app):
         @app.callback(
-            Output('chropleth_plot', 'figure'),
-            Output('scatter_plot', 'figure'),
-            Output('bar_plot', 'figure'),
-            Input('display-data-by-date', 'start_date'),
-            Input('display-data-by-date', 'end_date'))
+            [
+                Output('chropleth_plot', 'figure'),
+                Output('scatter_plot', 'figure'),
+                Output('bar_plot', 'figure'),
+            ],
+            [
+                Input('display-data-by-date', 'start_date'),
+                Input('display-data-by-date', 'end_date')
+            ])
         def update_output(start_date, end_date):
             geo_map = ApplicationDashboard().load_map()
 
