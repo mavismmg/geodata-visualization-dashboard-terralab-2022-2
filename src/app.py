@@ -41,14 +41,15 @@ class Geo:
         geo_map = Geo().load_map()
 
         map_fig = px.choropleth_mapbox(
-            self.chropleth_df, geojson=geo_map, locations='Estado',
+            self.chropleth_df, geojson=geo_map, locations="sigla",
             mapbox_style="carto-positron", color='Buscas concluídas',
-            center={"lat": -14.6633, "lon": -53.54627}, zoom=3)
+            center={"lat": -14.6633, "lon": -53.54627}, zoom=3, featureidkey="properties.sigla",
+            hover_name="sigla")
 
         scatter_fig = px.scatter_mapbox(
                 self.scatter_df, lat=self.scatter_df['latitude'],
                 lon=self.scatter_df['longitude'], color=self.scatter_df['geoapi'], 
-                mapbox_style="carto-positron", size="geoapi", hover_name="geoapi"
+                mapbox_style="carto-positron", hover_name="geoapi"
             )
 
         bar_fig = px.bar(self.bar_df, x='Estado', y='Geocodificações concluídas', color='Geoapi_id',
