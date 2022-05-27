@@ -4,16 +4,19 @@ Author: Mateus Jorge <br />
 License: MIT<br/>
 
 [Linkedln profile](https://www.linkedin.com/in/mateusjorge28186/) <br />
-[GitHub profile](https://github.com/mavismmg) <br />
+[Gitlab profile](https://gitlab.com/mavismmg) <br />
 [Kaggle profile](https://www.kaggle.com/mateusjorge) <br />   
 
 ## Sprint 5
 
 Proposta mapa coroplético por estado com a informação total de buscas concluídas para cada estado:<br/>
+![Messages](https://imgur.com/FthphLk.png "Banco de dados - Mensagens") <br/>
 
 Proposta mapa de pontos, o qual indica quais respostas estão fora dos limites da cidade que o endereço de busca solicitou:<br/>
+![Messages](https://imgur.com/lEziUl7.png "Banco de dados - Mensagens") <br/>
 
 Proposta gráfico de barras empilhadas com a informação do total de geolocalizações concluídas por api:<br/>
+![Messages](https://imgur.com/tbP55YA.png "Banco de dados - Mensagens") <br/>
 
 A aplicação roda na porta local 8050:<br/>
 ```ruby
