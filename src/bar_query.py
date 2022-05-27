@@ -14,23 +14,34 @@ class Bar:
         cur.execute(
             '''select
             "state",
-            "geoapi_id",
-            count(geolocation_id)
-            from "Response"
-            group by "state",
-            "geoapi_id"''', postgres_data)
+            count(number)
+            from "Request"
+            group by "state"''', postgres_data)
 
-        data = cur.fetchall()
+        request_data = cur.fetchall()
 
-        return data
+        cur.execute(
+            '''select
+            "geoapi_id"
+            from "Geoapi"
+            '''
+        )
+
+        geoapi_data = cur.fetchall()
+
+        return request_data, geoapi_data
 
 
     @staticmethod
     def api_serviceCount_per_state():
-        data = Bar().access_db()
+        request_data, geoapi_data = Bar().access_db()
 
-        df = pd.DataFrame(data, columns=['state', 'geoapi_id', 'count'])
-        df = df.apply(lambda x: x.astype(str).str.lower())        
+        df = pd.DataFrame(request_data, columns=['state', 'count'])
+        df = df.apply(lambda x: x.astype(str).str.lower())
+
+        temp_df = pd.DataFrame(geoapi_data, columns=['geoapi_id'])
+
+        df['geoapi_id'] = temp_df['geoapi_id']     
 
         df['state'] = df['state'].str.replace('state of ', '')
         df['state'] = df['state'].str.replace('federal district', 'distrito federal')
@@ -74,7 +85,7 @@ class Bar:
 
         pd.set_option('display.max_rows', None)
 
-        df = df.drop(labels=[8, 58, 98, 133, 134, 139])
+        df = df.drop(labels=[4])
         df['state'] = df['state'].apply(
             lambda x: x.upper()
         )
