@@ -2,7 +2,7 @@ from email.mime import application
 from tracemalloc import start
 from dash import Dash, dcc, html, Input, Output, callback_context
 from urllib.request import urlopen
-from datetime import date
+from datetime import datetime as dt
 
 import plotly.graph_objects as go
 import plotly.express as px
@@ -26,13 +26,17 @@ class ApplicationDashboard:
             [
                 dcc.DatePickerRange(
                     id='display-data-by-date',
-                    min_date_allowed=('2022, 2, 9'),
-                    max_date_allowed=('2022, 4, 25'),
-                    initial_visible_month=('2022, 2, 9'),
-                    end_date=date(2022, 2, 9),
+                    min_date_allowed=dt(2022, 2, 9),
+                    max_date_allowed=dt(2022, 4, 25),
+                    initial_visible_month=dt(2022, 2, 9),
+                    #start_date=dt(2022, 2, 9).date(),
+                    end_date=dt(2022, 4, 25).date(),
                     display_format='MMM Do, YY',
                     month_format='MMMM, YYYY',
                     number_of_months_shown=1,
+                    persistence=True,
+                    persisted_props=['start_date'],
+                    persistence_type='session',
                     updatemode='singledate'
                 ),
                 html.Div(id='output-container-display-data-by-date'),
