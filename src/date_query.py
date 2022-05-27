@@ -16,7 +16,8 @@ class Date:
             "date",
             "request_id",
             "geoapi_id"
-            from "Search"''', postgres_data
+            from "Search"
+            limit(5000)''', postgres_data
         )
 
         data = cur.fetchall()
@@ -27,12 +28,12 @@ class Date:
     def api_date():
         data = Date().access_db()
 
-        df = pd.DataFrame(data, columns=['date', 'request_id', 'geoapi_id'])
+        convert_date = pd.DataFrame(data, columns=['date'])
+        convert_date = pd.to_datetime(convert_date['date']).dt.date
+        convert_date = pd.to_numeric(convert_date['date'])
 
-        #df = pd.to_datetime(df['date']).dt.date
-
-        #df['date'] = pd.to_numeric(df['date'])
-
-        df = pd.DataFrame(df, columns=['date', 'request_id', 'geoapi_id'])
+        df = pd.DataFrame(data, columns=['request_id', 'geoapi_id'])
+        df['date'] = convert_date['date']
+        #df = pd.DataFrame(df, columns=['date', 'request_id', 'geoapi_id'])
 
         return df

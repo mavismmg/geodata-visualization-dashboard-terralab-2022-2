@@ -13,35 +13,20 @@ class Chropleth:
         cur.execute(
             '''select
             "state",
-            count(geolocation_id)
-            from "Response"
+            count(number)
+            from "Request"
             group by "state"''', postgres_data)
 
         data = cur.fetchall()
 
-        cur.execute(
-            '''select
-            "maxRequestPerDay"
-            from "Geoapi"
-            ''', postgres_data)
-
-        data_2 = cur.fetchall()
-
-        return data, data_2
+        return data
 
 
     @staticmethod
     def geoapi():
-        data, data_2 = Chropleth().access_db()
+        data = Chropleth().access_db()
 
         df = pd.DataFrame(data, columns=['state', 'count'])
-        # temp_df = pd.DataFrame(data_2, columns=['maxRequestPerDay'])
-
-        # df['count'] = temp_df['maxRequestPerDay']
-
-        # for feature in df:
-        #     df.dropna(subset=[feature], inplace=True)
-
         df = df.apply(lambda x: x.astype(str).str.lower()) 
 
         df['state'] = df['state'].str.replace('state of ', '')
@@ -83,7 +68,6 @@ class Chropleth:
         }
 
         df = df.replace({'state': state_initials_map})
-
         df['count'] = pd.to_numeric(df['count'])
 
         aggregation_map = {
@@ -92,13 +76,44 @@ class Chropleth:
         }
 
         df = df.groupby('state', as_index=False).aggregate(aggregation_map)
-
-        df = df.drop(labels=[3, 12, 15, 24, 30])
-
+        df = df.drop(labels=[0])
         df = df.apply(lambda x: x.astype(str).str.upper())
-
+        
         geoapi_df = pd.DataFrame(df, columns=['state', 'count'])
+        geoapi_df.columns = ['sigla', 'Buscas concluídas']
 
-        geoapi_df.columns = ['Estado', 'Buscas concluídas']
+        # state_fullname_map = {
+        #     'Acre',
+        #     'Alagoas',
+        #     'Amapa',
+        #     'Amazonas',
+        #     'Amazonas',
+        #     'Bahia',
+        #     'Aeara',
+        #     'Distrito federal',
+        #     'Espirito Santo',
+        #     'Goias',
+        #     'Maranhao', 
+        #     'Mato Grosso',
+        #     'Mato Grosso do Sul',
+        #     'Minas Gerais',
+        #     'Para',
+        #     'Paraiba',
+        #     'Parana',
+        #     'Pernambuco',
+        #     'Piaui',
+        #     'Rio de Janeiro',
+        #     'Rio Grande do Norte', 
+        #     'Rio Grande do Sul', 
+        #     'Rondonia',
+        #     'Roraima',
+        #     'Santa Catarina',
+        #     'Sao Paulo',
+        #     'Sergipe',
+        #     'Tocantins',
+        # }
+
+        #state_name_df = pd.DataFrame.from_dict(state_fullname_map, columns=['Estado'])
+        #geoapi_df['Estado'] = state_name_df['Estado']
 
         return geoapi_df
