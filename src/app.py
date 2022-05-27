@@ -22,10 +22,6 @@ class ApplicationDashboard:
         self.scatter_df = scatter_df
         self.bar_df = bar_df
 
-        self.mag_fig = None
-        self.scatter_fig = None
-        self.bar_fig = None
-
         self.app.layout = html.Div(
             [
                 dcc.DatePickerRange(
